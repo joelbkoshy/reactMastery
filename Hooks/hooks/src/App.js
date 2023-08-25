@@ -1,37 +1,40 @@
 import './App.css';
-import { useReducer, useEffect, useState } from 'react'
+import { useReducer, useEffect, useState, useRef } from 'react'
 
 const App = () => {
   const [checked, setChecked] = useReducer(checked => !checked, false)
   const [stateChange, setStateChange] = useState(1);
-  const [reducerCounter,setReducerCounter] = useReducer((state,e)=>{
+  const title = useRef();
+  const color = useRef();
+  const [reducerCounter, setReducerCounter] = useReducer((state, e) => {
     let count = 0
-    e.target.value === "+" ? count=state+1 :count=state-1
+    e.target.value === "+" ? count = state + 1 : count = state - 1
     return count
-  },1)
+  }, 1)
 
 
-  const reducer = (state,action)=>{
-    if(action==="+"){
-      return state+1
+  const reducer = (state, action) => {
+    if (action === "+") {
+      return state + 1
     }
-    else if(action==="-"){
-      return state-1
+    else if (action === "-") {
+      return state - 1
     }
   }
-  const [simpleReducer,dispatchReducer] = useReducer(reducer,1)
-  
-  useEffect(()=>{
-     console.log("This is for the first render")
-  },[])
+  const [simpleReducer, dispatchReducer] = useReducer(reducer, 1)
 
-  useEffect(()=>{
+  useEffect(() => {
+    console.log("This is for the first render")
+  }, [])
+
+  useEffect(() => {
     console.log("This is for checkbox")
-  },[checked])
+  }, [checked])
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log("This is for counter")
-  },[stateChange])
+  }, [stateChange])
+
   return (
     <div className="App">
       <div className='main'>
@@ -43,8 +46,8 @@ const App = () => {
           <div className="counter_first">
             <h2>Count is {stateChange}</h2>
             <div className="buttons">
-              <button onClick={()=>setStateChange(stateChange+1)}>+</button>
-              <button onClick={()=>setStateChange(stateChange-1)}>-</button>
+              <button onClick={() => setStateChange(stateChange + 1)}>+</button>
+              <button onClick={() => setStateChange(stateChange - 1)}>-</button>
             </div>
           </div>
         </div>
@@ -52,8 +55,8 @@ const App = () => {
           <div className="counter_first">
             <h2>Reducer Count is {reducerCounter}</h2>
             <div className="buttons">
-              <button onClick={(e)=>setReducerCounter(e)} value={"+"}> +</button>
-              <button onClick={(e)=>setReducerCounter(e)} value={"-"}>-</button>
+              <button onClick={(e) => setReducerCounter(e)} value={"+"}> +</button>
+              <button onClick={(e) => setReducerCounter(e)} value={"-"}>-</button>
             </div>
           </div>
         </div>
@@ -61,13 +64,22 @@ const App = () => {
           <div className="counter_first">
             <h2>Simple Reducer Count is {simpleReducer}</h2>
             <div className="buttons">
-              <button onClick={()=>dispatchReducer("+")} value={"+"}>+</button>
-              <button onClick={()=>dispatchReducer("-")} value={"-"}>-</button>
+              <button onClick={() => dispatchReducer("+")} value={"+"}>+</button>
+              <button onClick={() => dispatchReducer("-")} value={"-"}>-</button>
             </div>
           </div>
         </div>
         <div>
-
+          <div className="input">
+            <input type="text" ref={title} />
+            <input type="color" ref={color} />
+            <button onClick={() => {
+              alert(`${title.current.value},${color.current.value}`)
+              title.current.value=""
+              color.current.value=""
+            }}
+            >Check color name and id</button>
+          </div>
         </div>
       </div>
     </div>
