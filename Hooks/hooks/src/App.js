@@ -6,9 +6,20 @@ const App = () => {
   const [stateChange, setStateChange] = useState(1);
   const [reducerCounter,setReducerCounter] = useReducer((state,e)=>{
     let count = 0
-    e.target === "+" ? count=state+1 : count=state-1
+    e.target.value === "+" ? count=state+1 :count=state-1
     return count
   },1)
+
+
+  const reducer = (state,action)=>{
+    if(action==="+"){
+      return state+1
+    }
+    else if(action==="-"){
+      return state-1
+    }
+  }
+  const [simpleReducer,dispatchReducer] = useReducer(reducer,1)
   
   useEffect(()=>{
      console.log("This is for the first render")
@@ -41,8 +52,17 @@ const App = () => {
           <div className="counter_first">
             <h2>Reducer Count is {reducerCounter}</h2>
             <div className="buttons">
-              <button onClick={(e)=>setReducerCounter(e)} value={"+"}>+</button>
+              <button onClick={(e)=>setReducerCounter(e)} value={"+"}> +</button>
               <button onClick={(e)=>setReducerCounter(e)} value={"-"}>-</button>
+            </div>
+          </div>
+        </div>
+        <div className="counter">
+          <div className="counter_first">
+            <h2>Simple Reducer Count is {simpleReducer}</h2>
+            <div className="buttons">
+              <button onClick={()=>dispatchReducer("+")} value={"+"}>+</button>
+              <button onClick={()=>dispatchReducer("-")} value={"-"}>-</button>
             </div>
           </div>
         </div>
