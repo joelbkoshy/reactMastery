@@ -6,12 +6,14 @@ const App = () => {
   const [stateChange, setStateChange] = useState(1);
   const title = useRef();
   const color = useRef();
+  const [useTitle,setUseTitle] = useState("")
+  const [useColor,setUseColor] = useState("#0000")
+
   const [reducerCounter, setReducerCounter] = useReducer((state, e) => {
     let count = 0
     e.target.value === "+" ? count = state + 1 : count = state - 1
     return count
   }, 1)
-
 
   const reducer = (state, action) => {
     if (action === "+") {
@@ -22,6 +24,13 @@ const App = () => {
     }
   }
   const [simpleReducer, dispatchReducer] = useReducer(reducer, 1)
+
+  const handleUseSubmit = ()=>{
+    console.log(useTitle,useColor)
+    alert("The useState : title : "+ useTitle+" and color : "+useColor)
+    setUseTitle("")
+    setUseColor("#0000")
+  }
 
   useEffect(() => {
     console.log("This is for the first render")
@@ -78,6 +87,14 @@ const App = () => {
               title.current.value=""
               color.current.value=""
             }}
+            >Check color name and id</button>
+          </div>
+        </div>
+        <div>
+          <div className="input">
+            <input type="text"  value={useTitle} onChange={(e)=>setUseTitle(e.target.value)}/>
+            <input type="color" value={useColor} onChange={(e)=>setUseColor(e.target.value)}/>
+            <button onClick={() => handleUseSubmit()}
             >Check color name and id</button>
           </div>
         </div>
